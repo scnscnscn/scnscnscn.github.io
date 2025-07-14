@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, MapPin, Briefcase } from 'lucide-react';
+import { Calendar, MapPin, Briefcase, Award } from 'lucide-react';
 
 const Experience: React.FC = () => {
   const experiences = [
@@ -42,43 +42,57 @@ const Experience: React.FC = () => {
   ];
 
   return (
-    <section className="mb-16">
-      <h2 className="text-3xl font-bold text-white mb-8 text-center">工作经历</h2>
+    <section className="mb-20">
+      <h2 className="text-4xl font-bold text-white mb-12 text-center text-shadow">工作经历</h2>
       <div className="space-y-8">
         {experiences.map((exp, index) => (
           <div
             key={index}
-            className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-gray-600 transition-colors"
+            className="glass-effect rounded-3xl p-8 hover-lift smooth-transition group"
           >
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-              <div>
-                <h3 className="text-xl font-bold text-white mb-2">{exp.title}</h3>
-                <div className="flex items-center space-x-4 text-gray-400">
-                  <div className="flex items-center space-x-1">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
+              <div className="mb-4 lg:mb-0">
+                <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-blue-400 smooth-transition">
+                  {exp.title}
+                </h3>
+                <div className="flex flex-wrap items-center gap-4 text-white/70">
+                  <div className="flex items-center space-x-2">
                     <Briefcase size={16} />
                     <span>{exp.company}</span>
                   </div>
-                  <div className="flex items-center space-x-1">
+                  <div className="flex items-center space-x-2">
                     <MapPin size={16} />
                     <span>{exp.location}</span>
                   </div>
                 </div>
               </div>
-              <div className="flex items-center space-x-1 text-blue-400 mt-2 md:mt-0">
-                <Calendar size={16} />
-                <span className="font-medium">{exp.period}</span>
+              <div className="glass-light rounded-2xl px-4 py-2">
+                <div className="flex items-center space-x-2 text-blue-400">
+                  <Calendar size={16} />
+                  <span className="font-medium">{exp.period}</span>
+                </div>
               </div>
             </div>
             
-            <p className="text-gray-300 mb-4">{exp.description}</p>
+            <div className="glass-dark rounded-2xl p-6 mb-6">
+              <p className="text-white/90 text-lg">{exp.description}</p>
+            </div>
             
-            <div className="space-y-2">
-              <h4 className="text-white font-medium">主要成就:</h4>
-              <ul className="list-disc list-inside space-y-1">
+            <div className="space-y-4">
+              <div className="flex items-center space-x-2 text-white/90">
+                <Award size={18} />
+                <h4 className="font-semibold">主要成就</h4>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {exp.achievements.map((achievement, idx) => (
-                  <li key={idx} className="text-gray-400">{achievement}</li>
+                  <div
+                    key={idx}
+                    className="glass-light rounded-xl p-4 hover-lift smooth-transition"
+                  >
+                    <p className="text-white/80 text-sm">{achievement}</p>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           </div>
         ))}

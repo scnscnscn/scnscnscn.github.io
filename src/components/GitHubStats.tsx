@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, GitFork, Eye, ExternalLink } from 'lucide-react';
+import { Star, GitFork, Eye, ExternalLink, TrendingUp } from 'lucide-react';
 
 const GitHubStats: React.FC = () => {
   // 模拟的GitHub数据
@@ -54,22 +54,31 @@ const GitHubStats: React.FC = () => {
   const contributionData = generateContributionData();
 
   const getContributionColor = (count: number) => {
-    if (count === 0) return 'bg-gray-700';
-    if (count <= 2) return 'bg-green-900';
-    if (count <= 4) return 'bg-green-700';
+    if (count === 0) return 'bg-white/10';
+    if (count <= 2) return 'bg-green-900/60';
+    if (count <= 4) return 'bg-green-700/80';
     if (count <= 6) return 'bg-green-500';
     return 'bg-green-300';
   };
 
+  const languageColors: { [key: string]: string } = {
+    TypeScript: 'bg-blue-500',
+    JavaScript: 'bg-yellow-500',
+    'Node.js': 'bg-green-500'
+  };
+
   return (
-    <section className="mb-16">
-      <h2 className="text-3xl font-bold text-white mb-8 text-center">GitHub 统计</h2>
+    <section className="mb-20">
+      <h2 className="text-4xl font-bold text-white mb-12 text-center text-shadow">GitHub 统计</h2>
       
       {/* Contribution Heatmap */}
-      <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 mb-8">
-        <h3 className="text-xl font-bold text-white mb-4">贡献热力图</h3>
+      <div className="glass-effect rounded-3xl p-8 mb-8 hover-lift smooth-transition">
+        <div className="flex items-center space-x-3 mb-6">
+          <TrendingUp className="text-green-400" size={24} />
+          <h3 className="text-2xl font-bold text-white">贡献热力图</h3>
+        </div>
         <div className="overflow-x-auto">
-          <div className="inline-flex flex-col space-y-1 min-w-max">
+          <div className="inline-flex flex-col space-y-1 min-w-max p-4 glass-dark rounded-2xl">
             {Array.from({ length: 7 }, (_, weekday) => (
               <div key={weekday} className="flex space-x-1">
                 {contributionData
@@ -77,7 +86,7 @@ const GitHubStats: React.FC = () => {
                   .map((day, index) => (
                     <div
                       key={index}
-                      className={`w-3 h-3 rounded-sm ${getContributionColor(day.count)}`}
+                      className={`w-3 h-3 rounded-sm ${getContributionColor(day.count)} hover:scale-125 smooth-transition`}
                       title={`${day.date}: ${day.count} contributions`}
                     />
                   ))}
@@ -85,14 +94,14 @@ const GitHubStats: React.FC = () => {
             ))}
           </div>
         </div>
-        <div className="flex items-center justify-between mt-4 text-sm text-gray-400">
+        <div className="flex items-center justify-between mt-6 text-sm text-white/70">
           <span>过去一年的贡献活动</span>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
             <span>Less</span>
             <div className="flex space-x-1">
-              <div className="w-3 h-3 bg-gray-700 rounded-sm" />
-              <div className="w-3 h-3 bg-green-900 rounded-sm" />
-              <div className="w-3 h-3 bg-green-700 rounded-sm" />
+              <div className="w-3 h-3 bg-white/10 rounded-sm" />
+              <div className="w-3 h-3 bg-green-900/60 rounded-sm" />
+              <div className="w-3 h-3 bg-green-700/80 rounded-sm" />
               <div className="w-3 h-3 bg-green-500 rounded-sm" />
               <div className="w-3 h-3 bg-green-300 rounded-sm" />
             </div>
@@ -102,46 +111,48 @@ const GitHubStats: React.FC = () => {
       </div>
 
       {/* Featured Repositories */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {repositories.map((repo, index) => (
           <div
             key={index}
-            className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-gray-600 transition-colors group"
+            className="glass-effect rounded-3xl p-6 hover-lift smooth-transition group"
           >
-            <div className="flex items-start justify-between mb-3">
-              <h3 className="text-lg font-bold text-blue-400 group-hover:text-blue-300 transition-colors">
+            <div className="flex items-start justify-between mb-4">
+              <h3 className="text-xl font-bold text-blue-400 group-hover:text-blue-300 smooth-transition">
                 {repo.name}
               </h3>
               <a
                 href={repo.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-white/60 hover:text-white smooth-transition p-2 rounded-lg hover:glass-light"
               >
-                <ExternalLink size={16} />
+                <ExternalLink size={18} />
               </a>
             </div>
             
-            <p className="text-gray-300 text-sm mb-4 line-clamp-2">
-              {repo.description}
-            </p>
+            <div className="glass-dark rounded-2xl p-4 mb-6">
+              <p className="text-white/80 text-sm leading-relaxed">
+                {repo.description}
+              </p>
+            </div>
             
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-1">
-                <div className="w-3 h-3 bg-blue-500 rounded-full" />
-                <span className="text-gray-400 text-sm">{repo.language}</span>
+              <div className="flex items-center space-x-2">
+                <div className={`w-3 h-3 ${languageColors[repo.language]} rounded-full`} />
+                <span className="text-white/70 text-sm font-medium">{repo.language}</span>
               </div>
               
-              <div className="flex items-center space-x-4 text-gray-400 text-sm">
-                <div className="flex items-center space-x-1">
+              <div className="flex items-center space-x-4 text-white/60 text-sm">
+                <div className="flex items-center space-x-1 hover:text-white smooth-transition">
                   <Star size={14} />
                   <span>{repo.stars}</span>
                 </div>
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-1 hover:text-white smooth-transition">
                   <GitFork size={14} />
                   <span>{repo.forks}</span>
                 </div>
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-1 hover:text-white smooth-transition">
                   <Eye size={14} />
                   <span>{repo.watchers}</span>
                 </div>
